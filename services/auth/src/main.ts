@@ -4,9 +4,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { connectDB } from './config/db';
 import { connectFirebase } from './config/firebase';
+import { AppLogger } from './common/app-logger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: new AppLogger(),
+  });
   await connectDB();
   connectFirebase();
   const port = process.env.PORT ?? 8001;
